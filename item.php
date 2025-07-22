@@ -14,8 +14,6 @@ class Item
     private $add = '…';
     private $autocomplete = true;
     private $prio = 0;
-    private $missingChars = 0;
-    private $sameChars = 0;
 
     public static function create()
     {
@@ -101,33 +99,20 @@ class Item
         if (!$this->prefixOnlyTitle && 0 === stripos($query, $this->prefix)) {
             $query = substr($query, strlen($this->prefix));
         }
-        $this->sameChars = 0;
-        $queryLength = strlen($query);
-        for ($i = 0, $k = 0; $i < $queryLength; ++$i, $k++) {
-            for (; isset($comparator[$k]) && $comparator[$k] !== $query[$i]; ++$k);
-
-            if (!isset($comparator[$k])) {
-                return false;
-            }
-            if ($i === $k) {
-                ++$this->sameChars;
-            }
-        }
-        $this->missingChars = strlen($comparator) - $queryLength;
-
-        return true;
+        
+        // Simple substring matching: if query is contained anywhere in the comparator, it's a match
+        return strpos($comparator, $query) !== false;
     }
 
     public function compare(self $another)
     {
-        if ($this->sameChars != $another->sameChars) {
-            return $this->sameChars < $another->sameChars ? 1 : -1;
-        }
+        // Sort only by repository relationship priority (higher prio = higher priority)
         if ($this->prio != $another->prio) {
             return $this->prio < $another->prio ? 1 : -1;
         }
-
-        return $this->missingChars > $another->missingChars ? 1 : -1;
+        
+        // If priorities are equal, maintain original order (stable sort)
+        return 0;
     }
 
     /**
