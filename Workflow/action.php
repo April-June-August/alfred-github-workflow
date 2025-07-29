@@ -6,9 +6,12 @@ $query = trim($argv[1]);
 
 if ('>' !== $query[0] && 0 !== strpos($query, 'e >')) {
     if ('.git' == substr($query, -4)) {
-        $query = 'x-github-client://openRepo/'.substr($query, 0, -4);
+        // Convert HTTPS URL to SSH format
+        $sshUrl = preg_replace('#^https://github\.com/(.+)\.git$#', 'git@github.com:$1.git', $query);
+        exec('printf %s '.escapeshellarg($sshUrl).' | pbcopy');
+    } else {
+        exec('open '.$query);
     }
-    exec('open '.$query);
 
     return;
 }
