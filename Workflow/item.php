@@ -100,8 +100,24 @@ class Item
             $query = substr($query, strlen($this->prefix));
         }
         
-        // Simple substring matching: if query is contained anywhere in the comparator, it's a match
-        return strpos($comparator, $query) !== false;
+        // Split query by spaces and filter out empty strings
+        $keywords = array_filter(explode(' ', $query), function($keyword) {
+            return trim($keyword) !== '';
+        });
+        
+        // If no keywords, return true (empty query matches everything)
+        if (empty($keywords)) {
+            return true;
+        }
+        
+        // Check that all keywords are present in the comparator
+        foreach ($keywords as $keyword) {
+            if (strpos($comparator, trim($keyword)) === false) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     public function compare(self $another)
