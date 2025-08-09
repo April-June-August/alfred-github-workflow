@@ -9,7 +9,7 @@ You can search through GitHub (`gh`) and your GitHub Enterprise instance (`ghe`)
 
 ### Installation
 
-1. [↓ Download the latest release](../../releases/latest)
+1. [⤓ Download the latest release](../../releases/latest)
 
 2. Double-click the `.alfredworkflow` file to install
 
