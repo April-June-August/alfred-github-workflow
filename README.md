@@ -7,8 +7,15 @@ You can search through GitHub (`gh`) and your GitHub Enterprise instance (`ghe`)
 
 ![Workflow Screenshot](screenshot.png)
 
-Setup
------
+### Installation
+
+1. [➡️ Download the latest release](../../releases/latest)
+
+2. Double click the `.alfredworkflow` file to install
+
+Note that the [Alfred Powerpack](https://www.alfredapp.com/powerpack/) is required to use workflows.
+
+### Setup
 
 This workflow requires PHP, which is no longer pre-installed since macOS 12 Montery.  
 You can install it via [Homebrew](https://brew.sh) (`brew install php`).
